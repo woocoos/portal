@@ -1,0 +1,72 @@
+.tree-setting {
+  display: none;
+}
+
+.ant-tree-node-selected .tree-setting {
+  display: inline-flex;
+}
+
+/* 避免编辑器字体被修改 */
+.adminx-editor * {
+  font-family: Consolas, "Courier New", monospace;
+}
+
+
+.actionsTransfer-listRow {
+  padding: 10px;
+  border-bottom: solid 1px rgba(5, 5, 5, 0.06);
+}
+
+.actionsTransfer-listRow .delIcon {
+  display: none;
+}
+
+.actionsTransfer-listRow:hover .delIcon {
+  display: inline-flex;
+  cursor: pointer;
+}
+
+.actionsTransfer-listRow:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.actionsTransfer-listCheckbox {
+  position: relative;
+  cursor: pointer;
+  padding: 10px;
+  margin-left: 30px;
+  border-bottom: solid 1px rgba(5, 5, 5, 0.06);
+}
+
+.actionsTransfer-listCheckbox:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.actionsTransfer-listCheckbox .mask {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+}
+
+.actionsTransfer-listAllCheckbox {
+  position: relative;
+  display: inline-block;
+}
+
+
+.actionsTransfer-listAllCheckbox .mask {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+}
+
+
+.innerTable .ant-pro-card-body, .innerTable .ant-form {
+  padding: 0;
+}

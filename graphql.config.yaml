@@ -1,0 +1,5 @@
+projects:
+  adminx:
+    schema: "script/generated/adminx.graphql"
+    documents:
+      - 'script/generated/adminx.graphql'
