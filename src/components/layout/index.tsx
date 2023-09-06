@@ -27,6 +27,7 @@ export default (props: {
   const [userState, userDispatcher] = store.useModel('user'),
     [appState, appDispatcher] = store.useModel('app'),
     [checkLeave] = useLeavePrompt(),
+    [open, setOpen] = useState(false),
     [avatar, setAvatar] = useState<string>();
 
   useEffect(() => {
@@ -75,7 +76,9 @@ export default (props: {
   if (['/login', '/login/retrievePassword'].includes(pathname)) {
     return <CollectProviders locale={appState.locale}
       dark={appState.darkMode}
-      pathname={pathname}>
+      pathname={pathname}
+      appCode={ICE_APP_CODE}
+      tenantId={userState.tenantId}>
       {children}
     </CollectProviders>
   }
@@ -84,14 +87,22 @@ export default (props: {
     appCode={ICE_APP_CODE}
     pathname={pathname}
     IconFont={IconFont}
-    gatherMenuProps={{
-      storeKey: 'portal-menu',
+    aggregateMenuProps={{
+      open,
+      onChangeOpen: setOpen,
       onClick: async (menuItem, app) => {
         const conf = appConfig?.find(item => item.name === app.code);
         if (conf) {
           appHistory.push(await urlSpm(`${conf.path}${menuItem.route ?? ''}`))
         }
       },
+    }}
+    onClickMenuItem={async (item, isOpen) => {
+      if (isOpen) {
+        window.open(await urlSpm(item.path ?? ''));
+      } else {
+        appHistory?.push(await urlSpm(item.path ?? ''));
+      }
     }}
     tenantProps={{
       value: userState.tenantId,
