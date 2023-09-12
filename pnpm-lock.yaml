@@ -12,14 +12,14 @@ dependencies:
     specifier: ^2.6.2
     version: 2.6.2(antd@5.6.3)(rc-field-form@1.37.0)(react-dom@18.2.0)(react@18.2.0)
   '@knockout-js/api':
-    specifier: 0.0.4-beta.1
-    version: 0.0.4-beta.1(react@18.2.0)
+    specifier: 0.1.0
+    version: 0.1.0(react@18.2.0)
   '@knockout-js/ice-urql':
-    specifier: 0.0.4-beta.0
-    version: 0.0.4-beta.0(graphql@16.6.0)(react-dom@18.2.0)(react@18.2.0)
+    specifier: 0.1.0
+    version: 0.1.0(graphql@16.6.0)(react-dom@18.2.0)(react@18.2.0)
   '@knockout-js/layout':
-    specifier: 0.0.4-beta.1
-    version: 0.0.4-beta.1(graphql@16.6.0)(prop-types@15.8.1)(rc-field-form@1.37.0)(react-dom@18.2.0)(react@18.2.0)
+    specifier: 0.1.0
+    version: 0.1.0(graphql@16.6.0)(prop-types@15.8.1)(rc-field-form@1.37.0)(react-dom@18.2.0)(react@18.2.0)
   antd:
     specifier: ^5.6.3
     version: 5.6.3(react-dom@18.2.0)(react@18.2.0)
@@ -2650,8 +2650,8 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
 
-  /@knockout-js/api@0.0.4-beta.1(react@18.2.0):
-    resolution: {integrity: sha512-q4VufS5kjD0ykxxtKvcWD0IllyR9g4NoEoll2xC7thtRfTnAoH1Gcuaammf+zvJL5GS5gLZ8uCLju2dWcytdfQ==}
+  /@knockout-js/api@0.1.0(react@18.2.0):
+    resolution: {integrity: sha512-UxGmx7sjU77+0ko/emd3Ecl6tmkpNvGzTmxa4pI8ziqb9/vE4+WOEZgylVbzKARFwI+jm1FLQIWUNrBTwt1zzg==}
     peerDependencies:
       react: ^17 || ^18
     dependencies:
@@ -2661,8 +2661,8 @@ packages:
       react: 18.2.0
     dev: false
 
-  /@knockout-js/ice-urql@0.0.4-beta.0(graphql@16.6.0)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-WS0qaBg7Jr4oL1mPcvEo4xS7+92YkXnX0saPD5Nj6r5X3RVB3tw3nq07EeYg/hhr6/LQydmjt/JGzcygDjMUcA==}
+  /@knockout-js/ice-urql@0.1.0(graphql@16.6.0)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-zQRbQhWAF1LftqIkSIVIPuxbQ0hCPe0QfI08Lgd8R8st75y+hmlMgu3q/LCXYhu0LkLJGA1QNnAp7nEs3oTTew==}
     peerDependencies:
       react: ^18.0.0
       react-dom: ^18.0.0
@@ -2687,8 +2687,8 @@ packages:
       - supports-color
     dev: false
 
-  /@knockout-js/layout@0.0.4-beta.1(graphql@16.6.0)(prop-types@15.8.1)(rc-field-form@1.37.0)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-zYGHT3AXrAmgLciZFoG/G5AtWY1Yy8A6ZxOAZTlkls/ySIHJcGpxFgD5/tBXTO69dkGYo0p80GhrsJ95x0qy1Q==}
+  /@knockout-js/layout@0.1.0(graphql@16.6.0)(prop-types@15.8.1)(rc-field-form@1.37.0)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-92pcuJm6nLIzV6wOTl0dRwMHBe8yfb6PdydS+wM2Mj60GmA7Fpo9tD2m2GcUo9Px7f3titqb9HFtiXpk/9WsdA==}
     peerDependencies:
       react: ^17 || ^18
     dependencies:
@@ -2701,8 +2701,8 @@ packages:
       '@dnd-kit/utilities': 3.2.1(react@18.2.0)
       '@ice/jsx-runtime': 0.2.1(react@18.2.0)
       '@ice/runtime': 1.2.7(react-dom@18.2.0)(react@18.2.0)
-      '@knockout-js/api': 0.0.4-beta.1(react@18.2.0)
-      '@knockout-js/ice-urql': 0.0.4-beta.0(graphql@16.6.0)(react-dom@18.2.0)(react@18.2.0)
+      '@knockout-js/api': 0.1.0(react@18.2.0)
+      '@knockout-js/ice-urql': 0.1.0(graphql@16.6.0)(react-dom@18.2.0)(react@18.2.0)
       '@swc/helpers': 0.5.1
       antd: 5.6.3(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0

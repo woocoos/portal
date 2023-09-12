@@ -69,27 +69,34 @@ const schemaWithMocks = addMocksToSchema({
       appPolicyAssignedToOrgs: () => [
         store.get('Org', 1),
       ],
+      orgUserPreference: () => store.get('OrgUserPreference', 1),
       orgPolicyReferences: relayStylePaginationMock(store),
       appResources: relayStylePaginationMock(store),
       orgAppResources: relayStylePaginationMock(store),
       userGroups: relayStylePaginationMock(store),
       userExtendGroupPolicies: relayStylePaginationMock(store),
-      userMenus: () => [
-        store.get("AppMenu", 1),
-        store.get("AppMenu", 2),
-        store.get("AppMenu", 3),
-        store.get("AppMenu", 4),
-        store.get("AppMenu", 5),
-        store.get("AppMenu", 6),
-        store.get("AppMenu", 7),
-        store.get("AppMenu", 8),
-        store.get("AppMenu", 9),
-        store.get("AppMenu", 10),
-        store.get("AppMenu", 11),
-        store.get("AppMenu", 12),
-        store.get("AppMenu", 13),
-        store.get("AppMenu", 14),
-      ],
+      userMenus: (_, { appCode }) => {
+        if (appCode === 'resource') {
+          return [
+            store.get("AppMenu", 1),
+            store.get("AppMenu", 2),
+            store.get("AppMenu", 3),
+            store.get("AppMenu", 4),
+            store.get("AppMenu", 5),
+            store.get("AppMenu", 6),
+            store.get("AppMenu", 7),
+            store.get("AppMenu", 8),
+            store.get("AppMenu", 9),
+            store.get("AppMenu", 10),
+            store.get("AppMenu", 11),
+            store.get("AppMenu", 12),
+            store.get("AppMenu", 13),
+            store.get("AppMenu", 14),
+          ];
+        }
+
+        return [];
+      },
       userPermissions: () => [
         store.get('AppAction', 1),
         store.get('AppAction', 2),
@@ -107,6 +114,9 @@ const schemaWithMocks = addMocksToSchema({
       userRootOrgs: () => [
         store.get('Org', 1),
       ],
+      userApps: () => [
+        store.get('App', 1),
+      ],
       orgRecycleUsers: relayStylePaginationMock(store),
       globalID: (_, { type, id }) => btoa(`${type}:${id}`),
       node: (root, args, context, info) => {
@@ -120,6 +130,14 @@ const schemaWithMocks = addMocksToSchema({
       updateUser: (_, { userID, input }) => {
         store.set('User', userID, input)
         return store.get('User', userID)
+      },
+      saveOrgUserPreference: (_, { input }) => {
+        if (input.menuFavorite) {
+          store.set("OrgUserPreference", 1, 'menuFavorite', input.menuFavorite)
+        } else if (input.menuRecent) {
+          store.set("OrgUserPreference", 1, 'menuRecent', input.menuRecent)
+        }
+        return { id: 1 };
       }
     }
   }

@@ -66,7 +66,7 @@ export async function captcha(): Promise<CaptchaRes> {
  * @param data
  * @returns
  */
-export async function login(username: string, password: string, captcha: string, captchaId: string): Promise<LoginRes> {
+export async function login(username: string, password: string, captcha?: string, captchaId?: string): Promise<LoginRes> {
   return await request.post(`${ICE_API_AUTH_PREFIX}/login/auth`, {
     username,
     password,
@@ -257,7 +257,7 @@ export async function forgetPwdReset(stateToken: string, newPassword: string): P
  * @returns
  */
 export async function urlSpm(url: string, tenantId?: string) {
-  try {
+  if (url.toLowerCase().startsWith("http")) {
     const u = new URL(url);
     if (u.origin != location.origin) {
       const result = await request.post(`${ICE_API_AUTH_PREFIX}/spm/create`), userState = store.getModelState("user");
@@ -269,7 +269,7 @@ export async function urlSpm(url: string, tenantId?: string) {
       }
       return u.href
     }
-  } catch (error) { }
+  }
   return url
 }
 

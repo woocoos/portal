@@ -96,7 +96,7 @@ export const initStoreData = (store: IMockStore) => {
 
   // app
   store.set('App', 1, {
-    id: 1, name: 'app1', code: 'app1',
+    id: 1, name: 'app1', code: 'resource',
     actions: listTemp([
       store.get('AppAction', 1),
       store.get('AppAction', 2),
@@ -193,5 +193,10 @@ export const initStoreData = (store: IMockStore) => {
     orgID: 1, org: store.get('Org', 1),
     roleID: 3, role: store.get('OrgRole', 3),
     orgPolicyID: 1, orgPolicy: store.get('OrgPolicy', 1)
+  })
+
+  // OrgUserPreference
+  store.set('OrgUserPreference', 1, {
+    id: 1, userID: 1, orgID: 1, menuFavorite: null, menuRecent: null, user: store.get("User", 1), org: store.get('Org', 1)
   })
 }

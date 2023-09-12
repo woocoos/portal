@@ -9,24 +9,29 @@ import { getItem, removeItem } from '@/pkg/localStore';
 import { browserLanguage } from './util';
 import jwtDcode, { JwtPayload } from 'jwt-decode';
 import { defineFrameworkConfig } from '@ice/plugin-icestark/types';
-import { User, userPermissions } from '@knockout-js/api';
+import { User, files, userPermissions } from '@knockout-js/api';
 import { logout, parseSpm } from './services/auth';
 import FrameworkLayout from '@/components/layout';
-import appConfig from '@/components/layout/appConfig';
+import { getAppConfigs } from '@/components/layout/appConfig';
 import PageLoading from '@/components/pageLoading';
 
 const ICE_API_ADMINX = process.env.ICE_API_ADMINX ?? '',
   ICE_APP_CODE = process.env.ICE_APP_CODE ?? '',
   ICE_LOGIN_URL = process.env.ICE_LOGIN_URL ?? '',
-  ICE_API_AUTH_PREFIX = process.env.ICE_API_AUTH_PREFIX ?? '';
+  ICE_API_AUTH_PREFIX = process.env.ICE_API_AUTH_PREFIX ?? '',
+  ICE_API_FILES_PREFIX = process.env.ICE_API_FILES_PREFIX ?? '';
 
+files.setFilesApi(ICE_API_FILES_PREFIX);
 
 export const icestark = defineFrameworkConfig(() => ({
   layout: FrameworkLayout,
-  getApps: (data) => appConfig.map(item => {
-    item.props = data;
-    return item;
-  }),
+  getApps: async (data) => {
+    const config = await getAppConfigs();
+    return config.map(item => {
+      item.props = data;
+      return item;
+    })
+  },
   appRouter: {
     LoadingComponent: PageLoading,
     shouldAssetsRemove: (assetUrl) => {
@@ -124,20 +129,22 @@ export const authConfig = defineAuthConfig(async (appData) => {
   const { user } = appData,
     initialAuth = {};
   // 判断路由权限
-  if (user.token) {
-    const ups = await userPermissions(ICE_APP_CODE, {
-      Authorization: `Bearer ${user.token}`,
-      'X-Tenant-ID': user.tenantId,
-    });
-    if (ups) {
-      ups.forEach(item => {
-        if (item) {
-          initialAuth[item.name] = true;
-        }
+  if (!['/login', '/login/retrievePassword'].includes(location.pathname)) {
+    if (user.token) {
+      const ups = await userPermissions(ICE_APP_CODE, {
+        Authorization: `Bearer ${user.token}`,
+        'X-Tenant-ID': user.tenantId,
       });
+      if (ups) {
+        ups.forEach(item => {
+          if (item) {
+            initialAuth[item.name] = true;
+          }
+        });
+      }
+    } else {
+      await logout();
     }
-  } else {
-    await logout();
   }
   return {
     initialAuth,

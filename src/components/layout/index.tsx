@@ -3,15 +3,14 @@ import { useEffect, useState } from 'react';
 import defaultAvatar from '@/assets/images/default-avatar.png';
 import i18n from '@/i18n';
 import { monitorKeyChange } from '@/pkg/localStore';
-import { getFilesRaw } from '@/services/files';
 import { Layout, CollectProviders, useLeavePrompt } from '@knockout-js/layout';
 import { logout, urlSpm } from '@/services/auth';
 import { createFromIconfontCN } from '@ant-design/icons';
-import appConfig from './appConfig';
+import { getAppConfigs } from './appConfig';
 import { appHistory } from '@ice/stark-app';
+import { files } from '@knockout-js/api';
 
 const ICE_APP_CODE = process.env.ICE_APP_CODE ?? '',
-  NODE_ENV = process.env.NODE_ENV ?? '',
   IconFont = createFromIconfontCN({
     scriptUrl: "//at.alicdn.com/t/c/font_4214307_8x56lkek9tu.js"
   })
@@ -32,7 +31,7 @@ export default (props: {
 
   useEffect(() => {
     if (userState.user?.avatarFileId) {
-      getFilesRaw(userState.user?.avatarFileId, 'url').then(result => {
+      files.getFilesRaw(userState.user?.avatarFileId, 'url').then(result => {
         if (typeof result === 'string') {
           setAvatar(result);
         }
@@ -90,18 +89,26 @@ export default (props: {
     aggregateMenuProps={{
       open,
       onChangeOpen: setOpen,
-      onClick: async (menuItem, app) => {
-        const conf = appConfig?.find(item => item.name === app.code);
+      onClick: async (menuItem, app, isOpen) => {
+        const config = await getAppConfigs();
+        const conf = config.find(item => item.name === app.code);
         if (conf) {
-          appHistory.push(await urlSpm(`${conf.path}${menuItem.route ?? ''}`))
+          const url = await urlSpm(`${conf.path}${menuItem.route ?? ''}`)
+          if (isOpen) {
+            window.open(url);
+          } else {
+            appHistory?.push(url);
+            setOpen(false);
+          }
         }
       },
     }}
     onClickMenuItem={async (item, isOpen) => {
+      const url = await urlSpm(item.path ?? '')
       if (isOpen) {
-        window.open(await urlSpm(item.path ?? ''));
+        window.open(url);
       } else {
-        appHistory?.push(await urlSpm(item.path ?? ''));
+        appHistory?.push(url);
       }
     }}
     tenantProps={{

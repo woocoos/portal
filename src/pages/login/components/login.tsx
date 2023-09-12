@@ -4,7 +4,7 @@ import logo from '@/assets/images/woocoo.png';
 import Sha256 from 'crypto-js/sha256';
 import { useTranslation } from 'react-i18next';
 import { CaptchaRes, LoginRes, captcha, login } from '@/services/auth';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from '@ice/runtime';
 
 export default (
@@ -17,30 +17,29 @@ export default (
     [saveLoading, setSaveLoading] = useState(false),
     [saveDisabled, setSaveDisabled] = useState(true);
 
-
   const
     getCaptcha = async () => {
       setCaptchaInfo(await captcha());
     },
-    onFinish = async (values: { username: string; password: string; captcha: string }) => {
-      if (captchaInfo) {
-        setSaveLoading(true);
-        const result = await login(
-          values.username,
-          Sha256(values.password).toString(),
-          values.captcha,
-          captchaInfo.captchaId,
-        );
-        if (result && !result.errors) {
+    onFinish = async (values: { username: string; password: string; captcha?: string }) => {
+      setSaveLoading(true);
+      const result = await login(
+        values.username,
+        Sha256(values.password).toString(),
+        values.captcha,
+        captchaInfo?.captchaId,
+      );
+      if (result && !result.errors) {
+        if (result.callbackUrl === '/captcha') {
+          await getCaptcha();
+        } else {
           props.onSuccess(result);
         }
-        setSaveLoading(false);
       }
+      setSaveLoading(false);
       return false;
     };
-  useEffect(() => {
-    getCaptcha();
-  }, []);
+
 
   return (
     <LoginForm
@@ -94,26 +93,29 @@ export default (
           },
         ]}
       />
-      <ProFormText
-        name="captcha"
-        fieldProps={{
-          size: 'large',
-          addonAfter: <img
-            src={captchaInfo?.captchaImage}
-            height="32px"
-            onClick={() => {
-              getCaptcha();
-            }}
-          />,
-        }}
-        placeholder={`${t('auth_code')}`}
-        rules={[
-          {
-            required: true,
-            message: `${t('please_enter_auth_code')}`,
-          },
-        ]}
-      />
+      {
+        captchaInfo ? <ProFormText
+          name="captcha"
+          fieldProps={{
+            size: 'large',
+            addonAfter: <img
+              src={captchaInfo.captchaImage}
+              height="32px"
+              onClick={() => {
+                getCaptcha();
+              }}
+            />,
+          }}
+          placeholder={`${t('auth_code')}`}
+          rules={[
+            {
+              required: true,
+              message: `${t('please_enter_auth_code')}`,
+            },
+          ]}
+        /> : <></>
+      }
+
       <div style={{ marginBottom: 24 }}>
         <Link
           style={{ float: 'right' }}
