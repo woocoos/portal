@@ -6,7 +6,7 @@ import { monitorKeyChange } from '@/pkg/localStore';
 import { Layout, CollectProviders, useLeavePrompt } from '@knockout-js/layout';
 import { logout, urlSpm } from '@/services/auth';
 import { createFromIconfontCN } from '@ant-design/icons';
-import { getAppConfigs } from './appConfig';
+import { getAppConfigs } from '@/services/appConfig';
 import { appHistory } from '@ice/stark-app';
 import { files } from '@knockout-js/api';
 
@@ -90,8 +90,8 @@ export default (props: {
       open,
       onChangeOpen: setOpen,
       onClick: async (menuItem, app, isOpen) => {
-        const config = await getAppConfigs();
-        const conf = config.find(item => item.name === app.code);
+        const configs = await getAppConfigs();
+        const conf = configs.find(item => item.name === app.code);
         if (conf) {
           const url = await urlSpm(`${conf.path}${menuItem.route ?? ''}`)
           if (isOpen) {

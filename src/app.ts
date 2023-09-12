@@ -12,7 +12,7 @@ import { defineFrameworkConfig } from '@ice/plugin-icestark/types';
 import { User, files, userPermissions } from '@knockout-js/api';
 import { logout, parseSpm } from './services/auth';
 import FrameworkLayout from '@/components/layout';
-import { getAppConfigs } from '@/components/layout/appConfig';
+import { getAppConfigs } from '@/services/appConfig';
 import PageLoading from '@/components/pageLoading';
 
 const ICE_API_ADMINX = process.env.ICE_API_ADMINX ?? '',
@@ -26,10 +26,10 @@ files.setFilesApi(ICE_API_FILES_PREFIX);
 export const icestark = defineFrameworkConfig(() => ({
   layout: FrameworkLayout,
   getApps: async (data) => {
-    const config = await getAppConfigs();
-    return config.map(item => {
-      item.props = data;
-      return item;
+    const configs = await getAppConfigs();
+    return configs.map(config => {
+      config.props = data;
+      return config;
     })
   },
   appRouter: {

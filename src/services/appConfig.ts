@@ -1,15 +1,13 @@
 import { AppConfig } from "@ice/plugin-icestark/types"
 import { request } from 'ice';
 
-// "local" | "dev" | "uat" | "main"
-const ICE_DEPLOY_ENV = process.env.ICE_DEPLOY_ENV ?? 'local',
+const ICE_APP_CONFIG_ADDRESS = process.env.ICE_APP_CONFIG_ADDRESS ?? '',
   appConfig: AppConfig[] = [];
 
-
 export const getAppConfigs = async () => {
-  if (['dev', 'uat', 'main'].includes(ICE_DEPLOY_ENV)) {
+  if (ICE_APP_CONFIG_ADDRESS) {
     if (appConfig.length === 0) {
-      const result: AppConfig[] = await request.get(`https://qlcdn.oss-cn-shenzhen.aliyuncs.com/cdn/deploy/${ICE_DEPLOY_ENV}/appConfig.json`);
+      const result: AppConfig[] = await request.get(ICE_APP_CONFIG_ADDRESS);
       if (Array.isArray(result)) {
         appConfig.push(...result)
       }
